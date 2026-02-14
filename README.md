@@ -8,7 +8,7 @@ Small utility library for OKW-style contract matching and timeout handling.
 
 - Match modes: EXACT, WCM (contains), REGX (regex)
 - wait_until(predicate, timeout_s, interval_s)
-- $MEM{KEY} placeholder expansion via expand_mem(text, store)
+- `$MEM{KEY}` placeholder expansion via `expand_mem(text, store)`
 
 ## Non-goals
 
