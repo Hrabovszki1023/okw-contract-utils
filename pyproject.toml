@@ -8,11 +8,10 @@ version = "0.1.0"
 description = "Small utility library for OKW-style contract matching and timeout handling."
 authors = [{ name = "Zoltán Hrabovszki" }]
 readme = "README.md"
-license = { text = "AGPL-3.0-or-later" }
+license = "AGPL-3.0-or-later"
 requires-python = ">=3.9"
 dependencies = []
 classifiers = [
-  "License :: OSI Approved :: GNU Affero General Public License v3 or later (AGPLv3+)",
   "Programming Language :: Python :: 3",
   "Programming Language :: Python :: 3 :: Only",
   "Programming Language :: Python :: 3.9",
