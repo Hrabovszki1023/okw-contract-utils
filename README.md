@@ -1,19 +1,43 @@
 # okw-contract-utils
 
 Shared utilities for the OKW ecosystem. This package defines cross-library contracts such as
-matchers (EXACT/WCM/REGX), value expansion ($MEM{KEY}) and global OKW tokens.
+matchers (EXACT/WCM/REGX), value expansion ($MEM{KEY}), global OKW tokens, and the YES/NO
+existence model.
 
 ## Features
 
-- Match modes: EXACT, WCM (contains), REGX (regex)
-- wait_until(predicate, timeout_s, interval_s)
-- `$MEM{KEY}` placeholder expansion via `expand_mem(text, store)`
+- **Match modes**: EXACT (equality), WCM (wildcard via fnmatch: `*` = any chars, `?` = one char), REGX (regex via `re.search`)
+- **Value expansion**: `$MEM{KEY}` placeholder expansion via `expand_mem(text, store)`
+- **Global tokens**: `$IGNORE`, `$EMPTY`, `$DELETE`
+- **YES/NO existence model**: `parse_yes_no()`, `assert_exists()`
+- **Timeout helper**: `wait_until(predicate, timeout_s, interval_s)`
+- **Exceptions**: `OkwAssertionError`, `OkwTimeoutError`, `OkwConfigError`
 
 ## Non-goals
 
 - No Robot Framework keywords
 - No SSH/Selenium/GUI dependencies
 - No environment/provider logic
+
+## Match Modes
+
+All match modes normalize newlines (`\r\n` to `\n`) before comparing.
+
+| Mode | Function | Description |
+|------|----------|-------------|
+| EXACT | `a == e` | Exact string equality |
+| WCM | `fnmatch(a, e)` | Wildcard pattern match (`*` = any chars, `?` = one char) |
+| REGX | `re.search(e, a)` | Regular expression search (multiline) |
+
+Usage:
+
+```python
+from okw_contract_utils import assert_match, MatchMode
+
+assert_match("Hello World", "Hello World", MatchMode.EXACT)
+assert_match("Hello World", "Hello*", MatchMode.WCM)
+assert_match("Hello World", r"Hello\s+\w+", MatchMode.REGX)
+```
 
 ## Global Token Model
 
@@ -57,8 +81,60 @@ ${DELETE}    $DELETE
 
 For keyword parameters of type Value/Expected/Command:
 
-* Robot Framework variable expansion (e.g. ${IGNORE} → $IGNORE)
+* Robot Framework variable expansion (e.g. ${IGNORE} -> $IGNORE)
 * OKW value expansion (e.g. $MEM{KEY})
 * Token parsing ($IGNORE, $EMPTY, $DELETE)
 * Keyword semantics / adapter execution
 
+## YES/NO Existence Model
+
+For keywords that verify whether a resource exists (files, directories, UI elements, etc.),
+OKW defines a standard YES/NO model.
+
+### Accepted values
+
+| Input | Parsed as |
+|-------|-----------|
+| `YES`, `TRUE`, `1` | YES (must exist) |
+| `NO`, `FALSE`, `0` | NO (must not exist) |
+
+All values are **case-insensitive** and trimmed. Invalid values raise `ValueError`.
+
+### Usage
+
+```python
+from okw_contract_utils.tokens import parse_yes_no, assert_exists, OkwYesNo
+
+# Parse user input
+yn = parse_yes_no("YES")       # -> OkwYesNo.YES
+yn = parse_yes_no("false")     # -> OkwYesNo.NO
+yn = parse_yes_no("1")         # -> OkwYesNo.YES
+
+# Assert existence
+assert_exists(True, OkwYesNo.YES)   # PASS
+assert_exists(False, OkwYesNo.NO)   # PASS
+assert_exists(False, OkwYesNo.YES)  # raises OkwAssertionError
+```
+
+### Robot Framework integration
+
+Keywords typically expose the expected parameter with a default of `YES`:
+
+```robot
+Verify Remote File Exists    session1    /tmp/data.txt           # default: YES
+Verify Remote File Exists    session1    /tmp/data.txt    YES
+Verify Remote File Exists    session1    /tmp/old.txt     NO     # must NOT exist
+```
+
+## Value Expansion
+
+`expand_mem(text, store)` replaces `$MEM{KEY}` placeholders with values from a dictionary.
+Missing keys cause an immediate error (no silent fallback).
+
+```python
+from okw_contract_utils import expand_mem
+
+store = {"USER": "admin", "HOST": "10.0.0.1"}
+result = expand_mem("ssh $MEM{USER}@$MEM{HOST}", store)
+# -> "ssh admin@10.0.0.1"
+```
