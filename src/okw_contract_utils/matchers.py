@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 from enum import Enum
+from fnmatch import fnmatch
 import re
 
 from .exceptions import OkwAssertionError
@@ -30,7 +31,7 @@ def is_match(actual: str, expected: str, mode: MatchMode) -> MatchResult:
         return MatchResult(False, _msg(mode, e, a))
 
     if mode == MatchMode.WCM:
-        if e in a:
+        if fnmatch(a, e):
             return MatchResult(True)
         return MatchResult(False, _msg(mode, e, a))
 
