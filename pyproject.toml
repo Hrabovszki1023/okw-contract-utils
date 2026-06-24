@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "okw-contract-utils"
-version = "0.2.0"
+version = "0.2.1"
 description = "Shared contract utilities for the OKW ecosystem: matchers (EXACT/WCM/REGX), global tokens ($IGNORE/$EMPTY/$DELETE), YES/NO existence model, and $MEM{KEY} value expansion."
 authors = [{ name = "Zoltán Hrabovszki" }]
 readme = "README.md"
