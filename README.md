@@ -1,8 +1,23 @@
 # okw-contract-utils
 
-Shared utilities for the OKW ecosystem. This package defines cross-library contracts such as
-matchers (EXACT/WCM/REGX), value expansion ($MEM{KEY}), global OKW tokens, and the YES/NO
-existence model.
+[![PyPI](https://img.shields.io/pypi/v/okw-contract-utils)](https://pypi.org/project/okw-contract-utils/)
+[![Python](https://img.shields.io/pypi/pyversions/okw-contract-utils)](https://pypi.org/project/okw-contract-utils/)
+
+Shared contracts for the [OKW4Robot](https://github.com/Hrabovszki1023/robotframework-okw4robot) ecosystem — matchers, tokens, and value expansion used by all OKW libraries.
+
+## Signal vs. NOISE
+
+| Signal (your test) | NOISE (hidden in contract-utils) |
+|---|---|
+| `VerifyValue Status Logged in` | Match mode selection (EXACT/WCM/REGX) |
+| `${IGNORE}` → skip step | Token parsing, case normalization |
+| `$MEM{TOKEN}` → stored value | Dictionary lookup, missing-key error handling |
+
+## Install
+
+```bash
+pip install okw-contract-utils
+```
 
 ## Features
 
@@ -138,3 +153,11 @@ store = {"USER": "admin", "HOST": "10.0.0.1"}
 result = expand_mem("ssh $MEM{USER}@$MEM{HOST}", store)
 # -> "ssh admin@10.0.0.1"
 ```
+
+## Runnable Examples
+
+[okw-examples](https://github.com/Hrabovszki1023/okw-examples) — working Robot Framework tests for all OKW libraries.
+
+## Handbuch
+
+[OKW4Robot Handbuch](https://hrabovszki1023.github.io/okw-examples/) — step-by-step guide (German).
