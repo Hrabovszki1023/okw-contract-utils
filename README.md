@@ -2,7 +2,7 @@
 
 [![PyPI](https://img.shields.io/pypi/v/okw-contract-utils)](https://pypi.org/project/okw-contract-utils/)
 [![Python](https://img.shields.io/pypi/pyversions/okw-contract-utils)](https://pypi.org/project/okw-contract-utils/)
-[![License: AGPL v3](https://img.shields.io/badge/License-AGPL_v3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)
+[![License](https://img.shields.io/badge/License-OKW_Community-orange.svg)](LICENSE)
 
 Shared contracts for the [OKW4Robot](https://github.com/Hrabovszki1023/robotframework-okw4robot) ecosystem — matchers, tokens, and value expansion used by all OKW libraries.
 
