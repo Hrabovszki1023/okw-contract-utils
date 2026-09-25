@@ -6,7 +6,7 @@
 
 Shared contracts for the [OKW4Robot](https://github.com/Hrabovszki1023/robotframework-okw4robot) ecosystem — matchers, tokens, and value expansion used by all OKW libraries.
 
-> **Deutsche Version:** [README_de.md](README_de.md)
+> **Deutsche Version:** [README.de.md](README.de.md)
 
 ## Signal vs. NOISE
 
