@@ -2,7 +2,7 @@
 
 [![PyPI](https://img.shields.io/pypi/v/okw-contract-utils)](https://pypi.org/project/okw-contract-utils/)
 [![Python](https://img.shields.io/pypi/pyversions/okw-contract-utils)](https://pypi.org/project/okw-contract-utils/)
-[![License](https://img.shields.io/badge/License-OKW_Community-orange.svg)](LICENSE)
+[![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](LICENSE)
 
 Gemeinsame Verträge für das [OKW4Robot](https://github.com/Hrabovszki1023/robotframework-okw4robot)-Ökosystem — Matcher, Tokens und Wertersetzung, die von allen OKW-Bibliotheken genutzt werden.
 
